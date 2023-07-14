@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { NavLink } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -19,6 +20,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
 import ClassIcon from '@mui/icons-material/Class';
 import SchoolIcon from '@mui/icons-material/School';
+import { useContext } from 'react';
+import AuthContext from '../store/authContext'
 
 const drawerWidth = 240;
 
@@ -68,6 +71,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+
+  const authCtx = useContext(AuthContext)
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -96,7 +101,12 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1}}>
             Teacher Portal
           </Typography>
-          <Button color="inherit" >Login</Button>
+          {
+            authCtx.token ? (
+            <Button color="inherit" onClick={() => authCtx.logout()}>Logout</Button>
+            ) : (
+            <Button color="inherit" onClick={() => authCtx.login()}>Login</Button>  
+            )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -119,7 +129,7 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Classes', 'Students', 'Add Class', 'Add Student'].map((text, index) => (
+          {['Classes', 'Students'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
