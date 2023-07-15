@@ -9,7 +9,6 @@ module.exports = {
             allowNull: false,
             primaryKey: true
         },
-        firstName: DataTypes.STRING,
-        lastName: DataTypes.STRING
+        fullName: DataTypes.STRING
     })
 }

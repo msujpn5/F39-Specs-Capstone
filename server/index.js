@@ -5,11 +5,32 @@ const cors = require('cors')
 
 const {PORT} = process.env
 const {sequelize} = require('./util/database')
+const {Assignment} = require('./models/assignment')
+const {Class} = require('./models/class')
+const {Student} = require('./models/student')
+const {Subject} = require('./models/subject')
+const {Teacher} = require('./models/teacher')
+const {User} = require('./models/user')
 
 const app =express()
 
 app.use(express.json())
 app.use(cors())
+
+User.hasMany(Class)
+Class.belongsTo(User)
+
+Class.hasMany(Student)
+Student.belongsTo(Class)
+
+Teacher.hasMany(Class)
+Class.belongsTo(Teacher)
+
+Class.hasOne(Subject)
+Subject.belongsTo(Class)
+
+Student.hasMany(Assignment)
+Assignment.hasOne(Student)
 
 app.post('/register', register)
 app.post('login', login)
