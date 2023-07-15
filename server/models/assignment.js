@@ -9,7 +9,7 @@ module.exports = {
             allowNull: false,
             primaryKey: true
         },
-        name: DataTypes.STRING,
+        assignmentName: DataTypes.STRING,
         score: DataTypes.INT,
         dateSubmitted: DataTypes.STRING
     })

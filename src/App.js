@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/auth' element={!authCtx.token ? <Auth/> : <Navigate to='/'/>}/>
-        <Route path='/class' element={authCtx.token ? <Class/> : <Navigate to='/auth'/>}/>
+        <Route path='/class' element={!authCtx.token ? <Class/> : <Navigate to='/auth'/>}/>
         <Route path='/student' element={!authCtx.token ? <Student/> : <Navigate to='/auth'/>}/>
         <Route path='/addClass' element={!authCtx.token ? <AddClass/> : <Navigate to='/auth'/>}/>
         <Route path='/addStudent' element={!authCtx.token ? <AddStudent/> : <Navigate to='/auth'/>}/>

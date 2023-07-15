@@ -11,7 +11,7 @@ module.exports = {
             })
             res.status(200).send(classes)
         } catch (error) {
-            console.log('ERROR in getCurrentUserClasses')
+            console.log('ERROR IN getCurrentUserClasses')
             console.log(error)
             res.sendStatus(400)
         }
@@ -19,7 +19,25 @@ module.exports = {
 
     addClass: async (req, res) => {
         try {
-            
+            const {fullName, subject, userId} = req.body
+            await Class.create({fullName, subject, userId})
+            res.sendStatus(200)
+        } catch (error) {
+            console.log('ERROR IN addClass')
+            console.log(error)
+            res.sendStatus(400)
+        }
+    },
+
+    deleteClass: async (req, res) => {
+        try {
+            const {id} = req.params 
+            await Class.destroy({where: {id: +id}})
+            res.sendStatus(200)
+        } catch (error) {
+            console.log('ERROR IN deleteClass')
+            console.log(error)
+            res.sendStatus(400)
         }
     }
 }
