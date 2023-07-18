@@ -4,10 +4,10 @@ const bcrypt = require('bcryptjs')
 const {User} = require('../models/user')
 const {SECRET} = process.env
 
-function createToken (username, id) {
+function createToken (email, id) {
     return jwt.sign(
         {
-            username,
+            email,
             id
         },
         SECRET,
@@ -19,19 +19,19 @@ function createToken (username, id) {
 module.exports = {
     register: async (req, res) => {
         try {
-            const {username, password} = req.body 
-            let foundUser = await User.findOne({where: {username}})
+            const {email, password} = req.body 
+            let foundUser = await User.findOne({where: {email}})
             if (foundUser) {
                 res.status(400).send('cannot create user')
             } else {
                 const salt = bcrypt.genSaltSync(10)
                 const hash = bcrypt.hashSync(password, salt)
-                const newUser = await User.create({username, hashedPass: hash})
-                const token = createToken(newUser.dataValues.username, newUser.dataValues.id)
+                const newUser = await User.create({email, hashedPass: hash})
+                const token = createToken(newUser.dataValues.email, newUser.dataValues.id)
                 console.log('TOKEN:', token)
                 const exp = Date.now() + 1000 * 60 * 60 * 48
                 res.status(200).send({
-                    username: newUser.dataValues.username,
+                    email: newUser.dataValues.email,
                     userId: newUser.dataValues.id,
                     token,
                     exp
@@ -46,17 +46,17 @@ module.exports = {
 
     login: async (req, res) => {
         try {
-            const {username, password} = req.body
-            let foundUser = await User.findOne({where: {username}})
+            const {email, password} = req.body
+            let foundUser = await User.findOne({where: {email}})
 
             if (foundUser) {
                 const isAuthenticated = bcrypt.compareSync(password, foundUser.hashedPass)
 
                 if (isAuthenticated) {
-                    const token = createToken(foundUser.dataValues.username, foundUser.dataValues.id)
+                    const token = createToken(foundUser.dataValues.email, foundUser.dataValues.id)
                     const exp = Date.now() + 1000 * 60 * 60 * 48
                     res.status(200).send({
-                        username: foundUser.dataValues.username,
+                        email: foundUser.dataValues.email,
                         userId: foundUser.dataValues.id,
                         token,
                         exp
@@ -68,7 +68,7 @@ module.exports = {
                 res.status(400).send('user not found')
             }
         } catch (error) {
-            console.log('ERROR IN register')
+            console.log('ERROR IN login')
             console.log(error)
             res.sendStatus(400)
         }

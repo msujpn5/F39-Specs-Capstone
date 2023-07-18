@@ -10,7 +10,7 @@ module.exports = {
             primaryKey: true
         },
         assignmentName: DataTypes.STRING,
-        maxScore: DataTypes.INT,
+        maxScore: DataTypes.INTEGER,
         dateDue: DataTypes.STRING
     })
 }

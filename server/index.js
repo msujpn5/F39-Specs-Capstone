@@ -8,7 +8,6 @@ const {sequelize} = require('./util/database')
 const {Assignment} = require('./models/assignment')
 const {Class} = require('./models/class')
 const {Student} = require('./models/student')
-const {Teacher} = require('./models/teacher')
 const {User} = require('./models/user')
 const {getCurrentUserClasses, addClass, deleteClass} = require('./controllers/classes')
 const {getCurrentClassStudents, addStudent, deleteStudent} = require('./controllers/students')
@@ -27,14 +26,11 @@ Class.belongsTo(User)
 Class.hasMany(Student)
 Student.belongsTo(Class)
 
-Teacher.hasMany(Class)
-Class.belongsTo(Teacher)
-
 Class.hasMany(Assignment)
 Assignment.hasOne(Class)
 
 app.post('/register', register)
-app.post('login', login)
+app.post('/login', login)
 
 app.get('/classes/:id', isAuthenticated, getCurrentUserClasses)
 app.get('/students/:id', isAuthenticated, getCurrentClassStudents)

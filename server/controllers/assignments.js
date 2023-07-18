@@ -6,7 +6,7 @@ module.exports = {
     getCurrentClassAssignments: async (req, res) => {
         try {
             const {userId} = req.params
-            const assignments = await Assignments.findAll({
+            const assignments = await Assignment.findAll({
                 where: {userId: userId}
             })
             res.status(200).send(assignments)
