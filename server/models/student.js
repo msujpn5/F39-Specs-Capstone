@@ -2,7 +2,7 @@ const {DataTypes} = require('sequelize')
 const {sequelize} = require('../util/database')
 
 module.exports = {
-    Student: sequelize.define('user', {
+    Student: sequelize.define('student', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
@@ -12,6 +12,7 @@ module.exports = {
         firstName: DataTypes.STRING,
         middleName: DataTypes.STRING,
         lastName: DataTypes.STRING,
-        gender: DataTypes.STRING
+        gender: DataTypes.STRING,
+        age: DataTypes.INTEGER
     })
 }

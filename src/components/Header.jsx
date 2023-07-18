@@ -102,9 +102,9 @@ export default function PersistentDrawerLeft() {
           </Typography>
           {
             authCtx.token ? (
-            <Button color="inherit" onClick={() => authCtx.logout()}>Logout</Button>
+            <Button color="inherit" href="/auth" onClick={() => authCtx.logout()}>Logout</Button>
             ) : (
-            <Button color="inherit" onClick={() => authCtx.login()}>Login</Button>  
+            <Button color="inherit" href="/auth" onClick={() => authCtx.login()}>Login</Button>  
             )}
         </Toolbar>
       </AppBar>

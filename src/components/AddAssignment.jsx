@@ -8,25 +8,24 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import AuthContext from '../store/authContext';
 
-function AddGrade() {
+function AddAssignment() {
   const {token, userId} = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const [studentFirstName, setStudentFirstName] = useState('')
-  const [studentLastName, setStudentLastName] = useState('')
-  const [score, setScore] = useState('')
-  const [dateSubmitted, setDateSubmitted] = useState('')
+  const [assignmentName, setAssignmentName] = useState('')
+  const [maxScore, setMaxScore] = useState('')
+  const [dateDue, setDateDue] = useState('')
 
   const handleSubmit = e => {
     e.preventDefault()
 
-    axios.post('/students', {studentFirstName, studentLastName, score, dateSubmitted, userId}, {
+    axios.post('/assignments', {assignmentName, maxScore, dateDue, userId}, {
         headers: {
             authorization: token
         }
     })
         .then(() => {
-            navigate('/students')
+            navigate('/assignment')
         })
         .catch(err => console.log(err))
 }
@@ -42,42 +41,35 @@ function AddGrade() {
     >
       <div>
       <Typography variant="h4" ml="10px">
-          Add Grade
+          Add Assignment
         </Typography>
         <TextField
           required
           id="outlined-required"
-          label="Student First Name"
-          value={studentFirstName}
-          onChange={e => setStudentFirstName(e.target.value)}
+          label="Assignment Name"
+          value={assignmentName}
+          onChange={e => setAssignmentName(e.target.value)}
         />
         <TextField
           required
           id="outlined-required"
-          label="Student Last Name"
-          value={studentLastName}
-          onChange={e => setStudentLastName(e.target.value)}
+          label="Max Score"
+          value={maxScore}
+          onChange={e => setMaxScore(e.target.value)}
         />
         <TextField
           required
           id="outlined-required"
-          label="Score"
-          value={score}
-          onChange={e => setScore(e.target.value)}
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Date Submitted"
-          value={dateSubmitted}
-          onChange={e => setDateSubmitted(e.target.value)}
+          label="Date Due"
+          value={dateDue}
+          onChange={e => setDateDue(e.target.value)}
         />
         <Button variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
-        Add Grade
+        Add Assignment
       </Button>
       </div>
     </Box>
   )
 }
 
-export default AddGrade
+export default AddAssignment

@@ -8,9 +8,13 @@ const {sequelize} = require('./util/database')
 const {Assignment} = require('./models/assignment')
 const {Class} = require('./models/class')
 const {Student} = require('./models/student')
-const {Subject} = require('./models/subject')
 const {Teacher} = require('./models/teacher')
 const {User} = require('./models/user')
+const {getCurrentUserClasses, addClass, deleteClass} = require('./controllers/classes')
+const {getCurrentClassStudents, addStudent, deleteStudent} = require('./controllers/students')
+const {getCurrentClassAssignments, addAssignment, deleteAssignment} = require('./controllers/assignments')
+const {isAuthenticated} = require('./middleware/isAuthenticated')
+const {register, login} = require('./controllers/auth')
 
 const app =express()
 
@@ -26,24 +30,22 @@ Student.belongsTo(Class)
 Teacher.hasMany(Class)
 Class.belongsTo(Teacher)
 
-Class.hasOne(Subject)
-Subject.belongsTo(Class)
-
-Student.hasMany(Assignment)
-Assignment.hasOne(Student)
+Class.hasMany(Assignment)
+Assignment.hasOne(Class)
 
 app.post('/register', register)
 app.post('login', login)
 
-app.get('/classes', getClasses)
-app.get('/students', getStudents)
+app.get('/classes/:id', isAuthenticated, getCurrentUserClasses)
+app.get('/students/:id', isAuthenticated, getCurrentClassStudents)
+app.get('/assignments/:id', isAuthenticated, getCurrentClassAssignments)
 
 app.post('/classes', isAuthenticated, addClass)
 app.post('/students', isAuthenticated, addStudent)
-app.put('/classes/:id', isAuthenticated, editClass)
-app.put('/students/:id', isAuthenticated, editStudent)
+app.post('/assignments', isAuthenticated, addAssignment)
 app.delete('/classes/:id', isAuthenticated, deleteClass)
 app.delete('/students/:id', isAuthenticated, deleteStudent)
+app.delete('/assignments/:id', isAuthenticated, deleteAssignment)
 
 
 sequelize.sync({ force:true })

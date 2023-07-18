@@ -9,6 +9,8 @@ module.exports = {
             allowNull: false,
             primaryKey: true
         },
-        name: DataTypes.STRING
+        subject: DataTypes.STRING,
+        time: DataTypes.STRING,
+        classroom: DataTypes.STRING
     })
 }

@@ -12,13 +12,14 @@ function AddClass() {
   const {token, userId} = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const [fullName, setFullName] = useState('')
+  const [time, setTime] = useState('')
   const [subject, setSubject] = useState('')
+  const [classroom, setClassroom] = useState('')
 
   const handleSubmit = e => {
     e.preventDefault()
 
-    axios.post('/classes', {fullName, subject, userId}, {
+    axios.post('/classes', {time, subject, classroom, userId}, {
         headers: {
             authorization: token
         }
@@ -46,16 +47,23 @@ function AddClass() {
         <TextField
           required
           id="outlined-required"
-          label="Teacher Name"
-          value={fullName}
-          onChange={e => setFullName(e.target.value)}
+          label="Subject"
+          value={subject}
+          onChange={e => setSubject(e.target.value)}
         />
         <TextField
           required
           id="outlined-required"
-          label="Subject"
-          value={subject}
-          onChange={e => setSubject(e.target.value)}
+          label="Time"
+          value={time}
+          onChange={e => setTime(e.target.value)}
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Classroom"
+          value={classroom}
+          onChange={e => setClassroom(e.target.value)}
         />
         <Button variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
         Create Class

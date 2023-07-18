@@ -6,8 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,6 +13,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
+
 
 function Copyright(props) {
   return (
@@ -28,7 +28,6 @@ function Copyright(props) {
     </Typography>
   );
 }
-
 const defaultTheme = createTheme();
 
 function Auth() {
@@ -36,26 +35,14 @@ function Auth() {
   const [password, setPassword] = useState('')
   const [register, setRegister] = useState(true)
 
+
+
   const authCtx = useContext(AuthContext)
+
 
   const url = 'http://localhost:3000'
 
-  const body = {
-    email,
-    password
-  }
-
-  axios
-    .post(register ? `${url}/register` : `${url}/login`, body)
-    .then((res) => {
-        console.log('After authentication', res.data)
-        authCtx.login(res.data.token, res.data.exp, res.data.userId)
-    })
-    .catch(err => {
-        setPassword('')
-        setEmail('')
-    })
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -63,6 +50,18 @@ function Auth() {
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    axios
+      .post(register ? `${url}/register` : `${url}/login`, data)
+      .then((res) => {
+          console.log('After authentication', res.data)
+          authCtx.login(res.data.token, res.data.exp, res.data.userId)
+      })
+      .catch(err => {
+          setPassword('')
+          setEmail('')
+
+      })
     console.log('submitHandler called')
   };
 
@@ -114,6 +113,7 @@ function Auth() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             /> */}
+            {/* <p style={{display: display}}>{message}</p> */}
             <Button
               type="submit"
               fullWidth

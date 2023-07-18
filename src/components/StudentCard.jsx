@@ -1,31 +1,29 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
 
-function StudentCard(student) {
+function StudentCard({student}) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-    <CardActionArea>
-      <CardMedia
-        component="img"
-        height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
-        alt="student"
-      />
+    <Card sx={{ minWidth: 275 }}>
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          Lizard
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Student
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+        <Typography variant="h5" component="div">
+          {student.firstName} {student.middleName} {student.lastName}
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          {student.gender}
+        </Typography>
+        <Typography variant="body2">
+          {student.age}
         </Typography>
       </CardContent>
-    </CardActionArea>
-  </Card>
+    </Card>
   )
 }
 
