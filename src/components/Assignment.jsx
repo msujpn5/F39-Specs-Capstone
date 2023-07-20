@@ -7,7 +7,7 @@ function Assignment() {
 
     const getAssignments = () => {
         axios
-        .get('http://localhost:3000/assignments')
+        .get('http://localhost:4000/assignments')
         .then((res) => {
             setAssignments(res.data)
             console.log(res.data)

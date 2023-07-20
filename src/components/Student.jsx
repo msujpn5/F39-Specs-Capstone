@@ -8,7 +8,7 @@ function Student() {
 
   const getStudents = () => {
     axios
-      .get('http://localhost:3000/students')
+      .get('http://localhost:4000/students')
       .then((res) => {
         setStudents(res.data)
         console.log(res.data)

@@ -5,11 +5,10 @@ import axios from 'axios';
 
 function Class() {
   const [classes, setClasses] = useState([])
-  const [search, setSearch] = useState('')
 
   const getClasses = () => {
     axios
-    .get('http://localhost:3000/classes')
+    .get('http://localhost:4000/classes')
     .then((res) => {
       setClasses(res.data)
       console.log(res.data)

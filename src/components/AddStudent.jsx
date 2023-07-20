@@ -21,31 +21,32 @@ function AddStudent() {
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
   const [gender, setGender] = useState('female')
+  const [age, setAge] = useState('')
 
 
   const handleSubmit = e => {
     e.preventDefault()
 
-    axios.post('/students', {firstName, middleName, lastName, gender, userId}, {
+    axios.post('http://localhost:4000/students', {firstName, middleName, lastName, gender, age, userId}, {
         headers: {
             authorization: token
         }
     })
         .then(() => {
-            navigate('/students')
+            navigate('/student')
         })
         .catch(err => console.log(err))
 }
   return (
+    <form onSubmit={handleSubmit}>
     <Box
-      component="form"
+      // component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit}
-    >
+      >
       <Typography variant="h4" ml="10px">
           Create Student
         </Typography>
@@ -71,24 +72,36 @@ function AddStudent() {
           value={lastName}
           onChange={e => setLastName(e.target.value)}
         />
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+        <TextField
+          required
+          id="outlined-required"
+          label="Age"
+          value={age}
+          onChange={e => setAge(e.target.value)}
+        />
+        <FormControl sx={{m: 1}}>
+        <FormLabel id="demo-radio-buttons-group-label" >Gender</FormLabel>
         <RadioGroup
           row
           aria-labelledby="demo-radio-buttons-group-label"
           defaultValue="female"
           name="radio-buttons-group"
+          value={gender}
+          
         >
           <FormControlLabel value={"female"} control={<Radio />} label="Female" onChange={e => setGender(e.target.value)}/>
           <FormControlLabel value={"male"} control={<Radio />} label="Male" onChange={e => setGender(e.target.value)}/>
           <FormControlLabel value={"other"} control={<Radio />} label="Other" onChange={e => setGender(e.target.value)}/>
         </RadioGroup>
-      </FormControl>
+        </FormControl>
       </div>
-      <Button variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
+      <Box>
+      <Button type="submit" variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
         Create
       </Button>
+      </Box>
     </Box>
+    </form>
   )
 }
 

@@ -40,7 +40,7 @@ function Auth() {
   const authCtx = useContext(AuthContext)
 
 
-  const url = 'http://localhost:3000'
+  const url = 'http://localhost:4000'
 
   
   const handleSubmit = (event) => {

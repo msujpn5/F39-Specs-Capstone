@@ -19,26 +19,27 @@ function AddClass() {
   const handleSubmit = e => {
     e.preventDefault()
 
-    axios.post('/classes', {time, subject, classroom, userId}, {
+    axios.post('http://localhost:4000/classes', {time, subject, classroom, userId}, {
         headers: {
             authorization: token
         }
     })
         .then(() => {
-            navigate('/classes')
+            navigate('/class')
         })
         .catch(err => console.log(err))
 }
 
   return (
+    <form onSubmit={handleSubmit}>
     <Box
-      component="form"
+      // component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit}
+      
     >
       <div>
         <Typography variant="h4" ml="10px">
@@ -65,11 +66,14 @@ function AddClass() {
           value={classroom}
           onChange={e => setClassroom(e.target.value)}
         />
-        <Button variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
+        <Box>
+        <Button type="submit" variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
         Create Class
       </Button>
+      </Box>
       </div>
     </Box>
+    </form>
   )
 }
 

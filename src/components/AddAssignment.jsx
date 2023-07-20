@@ -19,7 +19,7 @@ function AddAssignment() {
   const handleSubmit = e => {
     e.preventDefault()
 
-    axios.post('/assignments', {assignmentName, maxScore, dateDue, userId}, {
+    axios.post('http://localhost:4000/assignments', {assignmentName, maxScore, dateDue, userId}, {
         headers: {
             authorization: token
         }
@@ -30,14 +30,14 @@ function AddAssignment() {
         .catch(err => console.log(err))
 }
   return (
+    <form onSubmit={handleSubmit}>
     <Box
-      component="form"
+      // component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
-      onSubmit={handleSubmit}
     >
       <div>
       <Typography variant="h4" ml="10px">
@@ -64,11 +64,14 @@ function AddAssignment() {
           value={dateDue}
           onChange={e => setDateDue(e.target.value)}
         />
-        <Button variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
+        <Box>
+        <Button type="submit" variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>
         Add Assignment
       </Button>
+      </Box>
       </div>
     </Box>
+    </form>
   )
 }
 

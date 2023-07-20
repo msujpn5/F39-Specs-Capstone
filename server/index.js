@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 
-const {PORT} = process.env
+const {SERVER_PORT} = process.env
 const {sequelize} = require('./util/database')
 const {Assignment} = require('./models/assignment')
 const {Class} = require('./models/class')
@@ -16,9 +16,11 @@ const {isAuthenticated} = require('./middleware/isAuthenticated')
 const {register, login} = require('./controllers/auth')
 
 const app =express()
+const morgan = require('morgan')
 
 app.use(express.json())
 app.use(cors())
+app.use(morgan('combined'))
 
 User.hasMany(Class)
 Class.belongsTo(User)
@@ -44,8 +46,9 @@ app.delete('/students/:id', isAuthenticated, deleteStudent)
 app.delete('/assignments/:id', isAuthenticated, deleteAssignment)
 
 
+
 sequelize.sync({ force:true })
     .then(() => {
-        app.listen(PORT, () => console.log(`Database successfully synced. Server now running on port ${PORT}`))
+        app.listen(SERVER_PORT, () => console.log(`Database successfully synced. Server now running on port ${SERVER_PORT}`))
     })
     .catch(err => console.log(err))
