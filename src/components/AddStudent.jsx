@@ -20,7 +20,7 @@ function AddStudent() {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [gender, setGender] = useState('female')
+  const [gender, setGender] = useState('Female')
   const [age, setAge] = useState('')
 
 
@@ -79,6 +79,7 @@ function AddStudent() {
           value={age}
           onChange={e => setAge(e.target.value)}
         />
+        <Box>
         <FormControl sx={{m: 1}}>
         <FormLabel id="demo-radio-buttons-group-label" >Gender</FormLabel>
         <RadioGroup
@@ -89,11 +90,12 @@ function AddStudent() {
           value={gender}
           
         >
-          <FormControlLabel value={"female"} control={<Radio />} label="Female" onChange={e => setGender(e.target.value)}/>
-          <FormControlLabel value={"male"} control={<Radio />} label="Male" onChange={e => setGender(e.target.value)}/>
-          <FormControlLabel value={"other"} control={<Radio />} label="Other" onChange={e => setGender(e.target.value)}/>
+          <FormControlLabel value={"Female"} control={<Radio />} label="Female" onChange={e => setGender(e.target.value)}/>
+          <FormControlLabel value={"Male"} control={<Radio />} label="Male" onChange={e => setGender(e.target.value)}/>
+          <FormControlLabel value={"Other"} control={<Radio />} label="Other" onChange={e => setGender(e.target.value)}/>
         </RadioGroup>
         </FormControl>
+        </Box>
       </div>
       <Box>
       <Button type="submit" variant="contained" sx={{m: 1}} endIcon={<AddIcon />}>

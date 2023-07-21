@@ -22,6 +22,8 @@ import ClassIcon from '@mui/icons-material/Class';
 import SchoolIcon from '@mui/icons-material/School';
 import { useContext } from 'react';
 import AuthContext from '../store/authContext'
+import DescriptionIcon from '@mui/icons-material/Description';
+import HomeIcon from '@mui/icons-material/Home';
 
 const drawerWidth = 240;
 
@@ -128,16 +130,30 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Classes', 'Students'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <ClassIcon /> : <SchoolIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+        <ListItemButton component="a" href='/'>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+          </ListItemButton>
+          <ListItemButton component="a" href='/class'>
+          <ListItemIcon>
+            <ClassIcon />
+          </ListItemIcon>
+          <ListItemText primary="Classes" />
+          </ListItemButton>
+          <ListItemButton component="a" href='/student'>
+          <ListItemIcon>
+            <SchoolIcon />
+          </ListItemIcon>
+          <ListItemText primary="Students" />
+          </ListItemButton>
+          <ListItemButton component="a" href='/assignment'>
+          <ListItemIcon>
+            <DescriptionIcon />
+          </ListItemIcon>
+          <ListItemText primary="Assignments" />
+          </ListItemButton>
         </List>
       </Drawer>
       <Main open={open}>

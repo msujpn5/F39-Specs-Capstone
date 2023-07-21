@@ -7,7 +7,12 @@ module.exports = {
         try {
             const {userId} = req.params
             const assignments = await Assignment.findAll({
-                where: {userId: userId}
+                where: {userId: userId},
+                include: [{
+                    model: User,
+                    required: true,
+                    attributes: [`email`]
+                }]
             })
             res.status(200).send(assignments)
         } catch (error) {

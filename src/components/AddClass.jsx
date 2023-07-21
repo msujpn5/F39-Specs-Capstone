@@ -19,7 +19,7 @@ function AddClass() {
   const handleSubmit = e => {
     e.preventDefault()
 
-    axios.post('http://localhost:4000/classes', {time, subject, classroom, userId}, {
+    axios.post('http://localhost:4000/classes', {subject, time, classroom, userId}, {
         headers: {
             authorization: token
         }

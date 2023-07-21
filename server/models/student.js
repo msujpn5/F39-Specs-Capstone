@@ -13,6 +13,6 @@ module.exports = {
         middleName: DataTypes.STRING,
         lastName: DataTypes.STRING,
         gender: DataTypes.STRING,
-        age: DataTypes.INTEGER
+        age: DataTypes.STRING
     })
 }

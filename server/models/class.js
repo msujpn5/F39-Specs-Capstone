@@ -2,7 +2,7 @@ const {DataTypes} = require('sequelize')
 const {sequelize} = require('../util/database')
 
 module.exports = {
-    Class: sequelize.define('class', {
+    teacherClass: sequelize.define('class', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

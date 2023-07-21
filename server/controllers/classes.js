@@ -1,13 +1,18 @@
 const {User} = require('../models/user')
-const {Class} = require('../models/class')
+const {teacherClass} = require('../models/class')
 const {Student} = require('../models/student')
 
 module.exports = {
     getCurrentUserClasses: async (req, res) => {
         try {
             const {userId} = req.params
-            const classes = await Class.findAll({
-                where: {userId: userId}
+            const classes = await teacherClass.findAll({
+                where: {userId: userId},
+                include: [{
+                    model: User,
+                    required: true,
+                    attributes: [`email`]
+                }]
             })
             res.status(200).send(classes)
         } catch (error) {
@@ -19,8 +24,8 @@ module.exports = {
 
     addClass: async (req, res) => {
         try {
-            const {fullName, subject, userId} = req.body
-            await Class.create({fullName, subject, userId})
+            const {subject, time, classroom, userId} = req.body
+            await teacherClass.create({subject, time, classroom, userId})
             res.sendStatus(200)
         } catch (error) {
             console.log('ERROR IN addClass')
@@ -32,7 +37,7 @@ module.exports = {
     deleteClass: async (req, res) => {
         try {
             const {id} = req.params 
-            await Class.destroy({where: {id: +id}})
+            await teacherClass.destroy({where: {id: +id}})
             res.sendStatus(200)
         } catch (error) {
             console.log('ERROR IN deleteClass')

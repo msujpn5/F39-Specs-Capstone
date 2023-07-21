@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import TodoApp from './toDoList';
 
 function Home() {
   const {userId} = useContext(AuthContext)
@@ -13,7 +14,7 @@ function Home() {
   return (
         <Grid container>
           <Grid item xs={6} md={6}>
-            
+            <TodoApp />
           </Grid>
           <Grid item xs={6}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>

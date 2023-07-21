@@ -6,7 +6,7 @@ const cors = require('cors')
 const {SERVER_PORT} = process.env
 const {sequelize} = require('./util/database')
 const {Assignment} = require('./models/assignment')
-const {Class} = require('./models/class')
+const {teacherClass} = require('./models/class')
 const {Student} = require('./models/student')
 const {User} = require('./models/user')
 const {getCurrentUserClasses, addClass, deleteClass} = require('./controllers/classes')
@@ -22,21 +22,23 @@ app.use(express.json())
 app.use(cors())
 app.use(morgan('combined'))
 
-User.hasMany(Class)
-Class.belongsTo(User)
-
-Class.hasMany(Student)
-Student.belongsTo(Class)
-
-Class.hasMany(Assignment)
-Assignment.hasOne(Class)
+User.hasMany(teacherClass)
+User.hasMany(Student)
+User.hasMany(Assignment)
+teacherClass.belongsTo(User)
+teacherClass.hasMany(Student)
+teacherClass.hasMany(Assignment)
+Student.belongsTo(teacherClass)
+Student.belongsTo(User)
+Assignment.hasOne(teacherClass)
+Assignment.belongsTo(User)
 
 app.post('/register', register)
 app.post('/login', login)
 
-app.get('/classes/:id', isAuthenticated, getCurrentUserClasses)
-app.get('/students/:id', isAuthenticated, getCurrentClassStudents)
-app.get('/assignments/:id', isAuthenticated, getCurrentClassAssignments)
+app.get('/classes/:userId', isAuthenticated, getCurrentUserClasses)
+app.get('/students/:userId', isAuthenticated, getCurrentClassStudents)
+app.get('/assignments/:userId', isAuthenticated, getCurrentClassAssignments)
 
 app.post('/classes', isAuthenticated, addClass)
 app.post('/students', isAuthenticated, addStudent)
@@ -47,7 +49,7 @@ app.delete('/assignments/:id', isAuthenticated, deleteAssignment)
 
 
 
-sequelize.sync({ force:true })
+sequelize.sync({ force: true })
     .then(() => {
         app.listen(SERVER_PORT, () => console.log(`Database successfully synced. Server now running on port ${SERVER_PORT}`))
     })

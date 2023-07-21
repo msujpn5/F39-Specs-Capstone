@@ -7,7 +7,12 @@ module.exports = {
         try {
             const {userId} = req.params
             const students = await Student.findAll({
-                where: {userId: userId}
+                where: {userId: userId},
+                include: [{
+                    model: User,
+                    required: true,
+                    attributes: [`email`]
+                }]
             })
             res.status(200).send(students)
         } catch (error) {
@@ -20,7 +25,7 @@ module.exports = {
     addStudent: async (req, res) => {
         try {
             const {firstName, middleName, lastName, gender, userId} = req.body
-            await Student.create({firstName, middleName, lastName, gender, userId})
+            await Student.create({firstName, middleName, lastName, gender, age, userId})
             res.sendStatus(200)
         } catch (error) {
             console.log('ERROR IN addStudent')
