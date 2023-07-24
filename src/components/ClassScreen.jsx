@@ -1,20 +1,19 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
-import axios from "axios";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
-import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState, useCallback } from "react";
+import { useParams } from "react-router-dom";
 import AuthContext from "../store/authContext";
+import axios from "axios";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
-function Assignment() {
+function ClassScreen() {
+  const { classId } = useParams();
+
   const { userId, token } = useContext(AuthContext);
 
   const [assignments, setAssignments] = useState([]);
-
-  const navigate = useNavigate();
 
   const getAssignments = useCallback(() => {
     axios
@@ -29,9 +28,15 @@ function Assignment() {
         console.log(res.data);
       })
       .catch((err) => console.log(err));
-  }, [userId, token]);
+  }, [userId, token, classId]);
 
-  const assignmentDisplay = assignments.map((assignment, index) => {
+  let filteredAssignments = assignments.filter(
+    (assignment) => assignment.classId === classId
+  )
+
+  console.log(filteredAssignments)
+
+  const assignmentDisplay = filteredAssignments.map((assignment, index) => {
     return (
       <Card sx={{ minWidth: 275, mb: 1 }}>
         <CardContent>
@@ -61,10 +66,6 @@ function Assignment() {
     getAssignments();
   }, [getAssignments]);
 
-  const handleClick = () => {
-    navigate("/addAssignment");
-  };
-
   const deleteAssignment = (id) => {
     axios
       .delete(`http://localhost:4000/assignments/${id}`, {
@@ -82,16 +83,9 @@ function Assignment() {
 
   return (
     <div>
-      <Box>
-        <Button
-          onClick={handleClick}
-          variant="contained"
-          sx={{ m: 1 }}
-          endIcon={<AddIcon />}
-        >
-          Create Assignment
-        </Button>
-      </Box>
+      <Typography variant="h4" ml="10px">
+        Assignments
+      </Typography>
       <Box sx={{ m: 1 }}>
         {assignmentDisplay ? (
           assignmentDisplay
@@ -99,8 +93,11 @@ function Assignment() {
           <Typography>No assignments</Typography>
         )}
       </Box>
+      <Typography sx={{ mt: 2 }} variant="h4" ml="10px">
+        Students
+      </Typography>
     </div>
   );
 }
 
-export default Assignment;
+export default ClassScreen;

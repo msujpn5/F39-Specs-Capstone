@@ -1,9 +1,8 @@
 const {User} = require('../models/user')
-const {Class} = require('../models/class')
 const {Student} = require('../models/student')
 
 module.exports = {
-    getCurrentClassStudents: async (req, res) => {
+    getAllStudents: async (req, res) => {
         try {
             const {userId} = req.params
             const students = await Student.findAll({
@@ -16,7 +15,7 @@ module.exports = {
             })
             res.status(200).send(students)
         } catch (error) {
-            console.log('ERROR IN getCurrentClassStudents')
+            console.log('ERROR IN getAllStudents')
             console.log(error)
             res.sendStatus(400)
         }
@@ -24,8 +23,8 @@ module.exports = {
 
     addStudent: async (req, res) => {
         try {
-            const {firstName, middleName, lastName, gender, userId} = req.body
-            await Student.create({firstName, middleName, lastName, gender, age, userId})
+            const {firstName, middleName, lastName, gender, age, classId, userId} = req.body
+            await Student.create({firstName, middleName, lastName, gender, age, classId, userId})
             res.sendStatus(200)
         } catch (error) {
             console.log('ERROR IN addStudent')

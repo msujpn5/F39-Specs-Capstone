@@ -1,6 +1,5 @@
 const {User} = require('../models/user')
 const {teacherClass} = require('../models/class')
-const {Student} = require('../models/student')
 
 module.exports = {
     getCurrentUserClasses: async (req, res) => {
