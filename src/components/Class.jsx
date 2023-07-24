@@ -69,7 +69,9 @@ function Class() {
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
             {teacherClass.time}
           </Typography>
-          <Typography variant="body2">{teacherClass.classroom}</Typography>
+          <Typography variant="body2">
+            Classroom: {teacherClass.classroom}
+          </Typography>
         </CardContent>
         <Box>
           <Button sx={{ m: 1 }} onClick={() => deleteClass(teacherClass.id)}>

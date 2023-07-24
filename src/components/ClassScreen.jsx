@@ -14,6 +14,7 @@ function ClassScreen() {
   const { userId, token } = useContext(AuthContext);
 
   const [assignments, setAssignments] = useState([]);
+  const [students, setStudents] = useState([])
 
   const getAssignments = useCallback(() => {
     axios
@@ -30,11 +31,23 @@ function ClassScreen() {
       .catch((err) => console.log(err));
   }, [userId, token, classId]);
 
-  let filteredAssignments = assignments.filter(
-    (assignment) => assignment.classId === classId
-  )
+  const getStudents = useCallback(() => {
+    axios
+      .get(`http://localhost:4000/students/${userId}`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      .then((res) => {
+        setStudents(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [userId, token, classId]);
 
-  console.log(filteredAssignments)
+  let filteredAssignments = assignments.filter(
+    (assignment) => assignment.classId === +classId
+  )
 
   const assignmentDisplay = filteredAssignments.map((assignment, index) => {
     return (
@@ -62,9 +75,38 @@ function ClassScreen() {
     );
   });
 
+  let filteredStudents = students.filter(
+    (student) => student.classId === +classId
+  )
+
+  const studentDisplay = filteredStudents.map((student, index) => {
+    return (
+      <Card sx={{ minWidth: 275, mb: 1 }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Class: {}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {student.firstName} {student.middleName} {student.lastName}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {student.gender}
+          </Typography>
+          <Typography variant="body2">Age: {student.age}</Typography>
+        </CardContent>
+        <Box>
+          <Button sx={{ m: 1 }} onClick={() => deleteStudent(student.id)}>
+            Delete
+          </Button>
+        </Box>
+      </Card>
+    );
+  });
+
   useEffect(() => {
     getAssignments();
-  }, [getAssignments]);
+    getStudents()
+  }, [getAssignments, getStudents]);
 
   const deleteAssignment = (id) => {
     axios
@@ -75,6 +117,21 @@ function ClassScreen() {
       })
       .then(() => {
         getAssignments();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const deleteStudent = (id) => {
+    axios
+      .delete(`http://localhost:4000/students/${id}`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      .then(() => {
+        getStudents();
       })
       .catch((err) => {
         console.log(err);
@@ -96,6 +153,9 @@ function ClassScreen() {
       <Typography sx={{ mt: 2 }} variant="h4" ml="10px">
         Students
       </Typography>
+      <Box sx={{ m: 1 }}>
+        {studentDisplay ? studentDisplay : <Typography>No Students</Typography>}
+      </Box>
     </div>
   );
 }
